@@ -1,0 +1,56 @@
+# PHP general
+*.log
+*.cache
+*.lock
+*.tmp
+*.swp
+*.bak
+*.sql
+*.sqlite
+*.env
+.env.*
+.env.local
+
+# Composer
+/vendor/
+/composer.lock
+
+# PHPUnit
+.phpunit.result.cache
+phpunit.xml
+phpunit.xml.dist
+coverage/
+
+# Laravel specific
+/storage/
+bootstrap/cache/
+.env
+Homestead.yaml
+Homestead.json
+*.key
+*.crt
+*.pem
+*.php~
+
+# Symfony specific
+/var/
+/config/secrets/prod/prod.decrypt.private.php
+/public/bundles/
+/.env.local
+.env.*.local
+.env.test
+
+# Slim & other frameworks
+/cache/
+logs/
+
+# IDEs and editors
+/.idea/
+/.vscode/
+/nbproject/
+*.sublime-workspace
+*.sublime-project
+
+# OS-specific
+.DS_Store
+Thumbs.db
