@@ -69,7 +69,8 @@ exports.getBidsByItem = async (req, res) => {
   try {
     const bids = await Bid.find({ item_id: req.params.id })
       .populate("user_id", "name email")
-      .sort({ created_at: -1 });
+      .sort({ created_at: -1 })
+      .populate('user_id', 'name');
 
     res.json(bids);
   } catch (err) {

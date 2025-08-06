@@ -1,30 +1,10 @@
 const Item = require("../models/Item");
 const Bid = require("../models/Bid");
+const Notification = require("../models/Notification");
 
 // @desc    Upload a new auction item
 // @route   POST /api/items
 // @access  Private (seller only)
-// exports.uploadItem = async (req, res) => {
-//   const { title, description, starting_bid, deadline, category, images } = req.body;
-
-//   try {
-//     const item = await Item.create({
-//       user_id: req.user._id,
-//       title,
-//       description,
-//       category,
-//       starting_bid,
-//       deadline,
-//       images
-//     });
-
-//     res.status(201).json(item);
-//   } catch (error) {
-//     console.error('Upload error:', error);
-//     res.status(500).json({ message: error.message });
-//   }
-// };
-
 exports.uploadItem = async (req, res) => {
   const { title, description, starting_bid, deadline, category } = req.body;
   const imagePath = req.file ? req.file.path : null;
@@ -47,11 +27,37 @@ exports.uploadItem = async (req, res) => {
   }
 };
 
+// @desc    Close expired auctions and notify winners
+const closeExpiredAuctions = async () => {
+  const now = new Date();
+  const expiredItems = await Item.find({ deadline: { $lte: now }, status: "active" });
+
+  for (const item of expiredItems) {
+    const highestBid = await Bid.findOne({ item_id: item._id }).sort({ bid_amount: -1 });
+
+    if (highestBid) {
+      highestBid.is_winning_bid = true;
+      await highestBid.save();
+
+      await Notification.create({
+        user_id: highestBid.user_id,
+        message: `Congratulations! You won the auction for item: ${item.title}`,
+        type: "won",
+      });
+    }
+
+    item.status = "ended";
+    await item.save();
+  }
+};
+
 // @desc    Get all auction items
 // @route   GET /api/items
 // @access  Public
 exports.getAllItems = async (req, res) => {
   try {
+    await closeExpiredAuctions(); // Auto-close and notify before returning items
+
     const items = await Item.find().sort({ deadline: -1 });
     res.json(items);
   } catch (error) {
@@ -151,7 +157,7 @@ exports.getMyItems = async (req, res) => {
     const items = await Item.find({ user_id: req.user._id })
       .sort({ created_at: -1 })
       .populate({
-        path: "bids", // virtual populate field
+        path: "bids",
         options: { sort: { bid_amount: -1 } },
       });
 

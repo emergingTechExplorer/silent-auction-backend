@@ -14,7 +14,7 @@ const notificationSchema = new mongoose.Schema({
   type: {
     type: String,
     enum: ['outbid', 'won'],
-    default: 'outbid',
+    required: true,
   },
   is_read: {
     type: Boolean,
