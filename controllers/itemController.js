@@ -51,7 +51,7 @@ exports.uploadItem = async (req, res) => {
 // @access  Public
 exports.getAllItems = async (req, res) => {
   try {
-    const items = await Item.find().sort({ deadline: 1 });
+    const items = await Item.find().sort({ deadline: -1 });
     res.json(items);
   } catch (error) {
     console.error("Get all items error:", error);
