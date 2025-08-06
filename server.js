@@ -9,9 +9,6 @@ const notificationRoutes = require('./routes/notificationRoutes');
 const userRoutes = require('./routes/userRoutes');
 const categoryRoutes = require('./routes/categoryRoutes');
 
-
-
-
 dotenv.config();
 connectDB();
 
@@ -29,10 +26,6 @@ app.use('/api/notifications', notificationRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/uploads', express.static('uploads'));
-
-
-
-
 
 // Root route
 app.get('/', (req, res) => {

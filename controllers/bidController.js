@@ -94,7 +94,7 @@ exports.getBidsByUser = async (req, res) => {
       .populate("item_id", "title images deadline")
       .sort({ bid_time: -1 });
 
-    res.status(200).json(bids); // ✅ Must send an array
+    res.status(200).json(bids);
   } catch (err) {
     console.error("Error fetching user bids:", err);
     res.status(500).json({ message: err.message });

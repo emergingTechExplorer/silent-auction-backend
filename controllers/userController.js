@@ -74,7 +74,7 @@ exports.uploadUserProfileImage = async (req, res) => {
 
     res.status(200).json({
       message: "Profile image uploaded successfully",
-      profile_image: req.file.path, // ✅ frontend expects this key
+      profile_image: req.file.path,
       user: {
         id: updatedUser._id,
         name: updatedUser.name,

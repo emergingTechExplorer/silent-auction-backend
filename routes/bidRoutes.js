@@ -11,7 +11,7 @@ router.post('/', protect, placeBid);
 
 router.get('/item/:id', protect, getBidsByItem);
 router.get('/user/:id', protect, getBidsByUser);
-router.get('/me', protect, getMyBids);  // ✅ ← New route
+router.get('/me', protect, getMyBids); 
 router.get('/won', protect, getWonBids);
 
 module.exports = router;
