@@ -12,6 +12,11 @@ exports.placeBid = async (req, res) => {
     const item = await Item.findById(item_id);
     if (!item) return res.status(404).json({ message: "Item not found" });
 
+    // ✅ Prevent user from bidding on their own item
+    if (item.user_id.toString() === req.user._id.toString()) {
+      return res.status(403).json({ message: "You cannot bid on your own item." });
+    }
+
     if (item.status === "ended") {
       return res
         .status(400)
