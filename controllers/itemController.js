@@ -26,7 +26,8 @@ const Bid = require("../models/Bid");
 // };
 
 exports.uploadItem = async (req, res) => {
-  const { title, description, starting_bid, deadline, category, images } = req.body;
+  const { title, description, starting_bid, deadline, category } = req.body;
+  const imagePath = req.file ? req.file.path : null;
 
   try {
     const item = await Item.create({
@@ -36,12 +37,12 @@ exports.uploadItem = async (req, res) => {
       category,
       starting_bid,
       deadline,
-      images: images || []  // ← Accept empty or existing list
+      images: imagePath ? [imagePath] : [],
     });
 
     res.status(201).json(item);
   } catch (error) {
-    console.error('Upload error:', error);
+    console.error("Upload error:", error);
     res.status(500).json({ message: error.message });
   }
 };

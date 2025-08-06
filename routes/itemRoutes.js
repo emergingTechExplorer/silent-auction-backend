@@ -6,8 +6,8 @@ const upload = require('../middleware/uploadMiddleware');
 // @route   POST /api/items
 // @desc    Upload a new auction item
 // @access  Private (seller)
-router.post('/', protect, uploadItem);
-// router.post('/items', protect, upload.single('image'), uploadItem);
+// router.post('/', protect, uploadItem);
+router.post('/', protect, upload.single('image'), uploadItem);
 
 // @route   PUT /api/items/:id
 // @desc    Edit an auction item (only if no bids yet)
