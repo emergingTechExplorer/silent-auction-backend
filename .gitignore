@@ -56,3 +56,4 @@ logs/
 Thumbs.db
 
 /uploads
+/node_modules
